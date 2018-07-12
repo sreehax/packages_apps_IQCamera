@@ -4,9 +4,9 @@
 	package='com.sreeharis.camera'
 	a:versionCode='0'
 	a:versionName='0'>
-	<uses-permission android:name="android.permission.CAMERA" />
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+	<uses-permission a:name="android.permission.CAMERA" />
+	<uses-permission a:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission a:name="android.permission.READ_EXTERNAL_STORAGE" />
 	<uses-sdk a:minSdkVersion="21" a:targetSdkVersion="27"/>
 	<application a:label='Camera' a:icon='@drawable/ic_launcher'>
 		<activity a:name='.CameraActivity'>
