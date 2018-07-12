@@ -1,0 +1,17 @@
+<?xml version='1.0'?>
+<manifest
+	xmlns:a='http://schemas.android.com/apk/res/android'
+	package='com.sreeharis.camera'
+	a:versionCode='0'
+	a:versionName='0'>
+	<uses-sdk a:minSdkVersion="21" a:targetSdkVersion="27"/>
+	<application a:label='Camera' a:icon='@drawable/ic_launcher'>
+		<activity a:name='.CameraActivity'>
+			<intent-filter>
+				<category a:name='android.intent.category.LAUNCHER' />
+				<action a:name='android.intent.action.MAIN' />
+			</intent-filter>
+		</activity>
+	</application>
+</manifest>
+				
