@@ -15,20 +15,20 @@
 				<action a:name='android.intent.action.MAIN' />
 			</intent-filter>
 			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
+				<action a:name="android.intent.action.MAIN" />
+				<category a:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 
 			<intent-filter>
-				<action android:name="android.media.action.IMAGE_CAPTURE" />
-				<action android:name="android.media.action.STILL_IMAGE_CAMERA_SECURE" />
-				<category android:name="android.intent.category.DEFAULT" />
+				<action a:name="android.media.action.IMAGE_CAPTURE" />
+				<action a:name="android.media.action.STILL_IMAGE_CAMERA_SECURE" />
+				<category a:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 			
 			<intent-filter>
-				<action android:name="android.media.action.STILL_IMAGE_CAMERA" />
-				<category android:name="android.intent.category.DEFAULT" />
-</intent-filter>
+				<action a:name="android.media.action.STILL_IMAGE_CAMERA" />
+				<category a:name="android.intent.category.DEFAULT" />
+			</intent-filter>
 		</activity>
 	</application>
 </manifest>
