@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<style name="generalnotitle" parent="general">
+	<item name="a:windowNoTitle">true</item>
+	<item name="a:windowTranslucentStatus">true</item>
+	<item name="a:windowTranslucentNavigation">true</item>
+</style>
+</resources>
