@@ -15,4 +15,9 @@
 -->
 <resources>
     <style name="MaterialTheme" parent="android:Theme.Material.Light.NoActionBar.Fullscreen" />
+<style name="generalnotitle" parent="general">
+	<item name="a:windowNoTitle">true</item>
+	<item name="a:windowTranslucentStatus">true</item>
+	<item name="a:windowTranslucentNavigation">true</item>
+</style>
 </resources>
