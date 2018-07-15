@@ -74,6 +74,7 @@ public class CameraActivity extends Activity {
 	private boolean mFlashSupported;
 	private Handler mBackgroundHandler;
 	private HandlerThread mBackgroundThread;
+	private SurfaceTexture mPreviewSurfaceTexture;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +96,7 @@ public class CameraActivity extends Activity {
 	TextureView.SurfaceTextureListener textureListener = new TextureView.SurfaceTextureListener() {
 		@Override
 		public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+			mPreviewSurfaceTexture = surface;
 			openCamera();
 		}
 
@@ -164,10 +166,11 @@ public class CameraActivity extends Activity {
 		try {
 			CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraDevice.getId());
 			StreamConfigurationMap streamConfigs = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+			StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
 			Size largestRaw = Collections.max(Arrays.asList(map.getOutputSizes(ImageFormat.RAW_SENSOR)),new CompareSizesByArea());
 			
 			ImageReader rawImageReader = ImageReader.newInstance(largestRaw.getWidth(), largestRaw.getHeight(), ImageFormat.RAW_SENSOR, 1);
-			rawImageReader.setOnImageAvailableListener(new OnImageAvailableListener() {
+			rawImageReader.setOnImageAvailableListener(new ImageReader.OnImageAvailableListener() {
 				@Override
 				 public void onImageAvailable(ImageReader reader) {
 					 //save raw
@@ -175,21 +178,26 @@ public class CameraActivity extends Activity {
 			});
 			Surface previewSurface = new Surface(mPreviewSurfaceTexture);
 			Surface rawCaptureSurface = rawImageReader.getSurface();
-			cameraManager.openCamera(cameraId, new CameraDevice.StateCallback() {
+			manager.openCamera(cameraId, new CameraDevice.StateCallback() {
 				@Override
 				public void onOpened(CameraDevice camera) {
-					mCamera = camera;
+					cameraDevice = camera;
 
 				}
+				@Override
+				public void onError(CameraDevice device, int error) {
+					cameraDevice.close();
+					cameraDevice = null;
+				}
 			});
-			List<Surface> surfaces = Arrays.asList(previewSurface, rawCaptureSurface, jpegCaptureSurface);
-			mCamera.createCaptureSession(surfaces, new CameraCaptureSession.StateCallback() {
+			List<Surface> surfaces = Arrays.asList(previewSurface, rawCaptureSurface);
+			cameraDevice.createCaptureSession(surfaces, new CameraCaptureSession.StateCallback() {
 				@Override
 				public void onConfigured(CameraCaptureSession session) {
 					mSession = session;
 				}
 			});
-			CaptureRequest.Builder request = mCamera.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
+			CaptureRequest.Builder request = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
 			request.addTarget(rawCaptureSurface);
 			request.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
 			request.set(CaptureRequest.STATISTICS_LENS_SHADING_MAP_MODE, CaptureRequest.STATISTICS_LENS_SHADING_MAP_MODE_ON);
@@ -247,6 +255,11 @@ public class CameraActivity extends Activity {
 				@Override
 				public void onConfigureFailed(@NonNull CameraCaptureSession cameraCaptureSession) {
 					Toast.makeText(CameraActivity.this, "Configuration change", Toast.LENGTH_SHORT).show();
+				}
+				
+				@Override
+				public void onDisconnected(CameraDevice device) {
+					cameraDevice.close();
 				}
 			}, null);
 		} catch (CameraAccessException e) {
