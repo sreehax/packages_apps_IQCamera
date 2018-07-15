@@ -41,6 +41,8 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Comparator;
+import java.util.Collections;
 
 public class CameraActivity extends Activity {
 	private static final String TAG = "IQCamera";
@@ -54,7 +56,12 @@ public class CameraActivity extends Activity {
 		ORIENTATIONS.append(Surface.ROTATION_180, 270);
 		ORIENTATIONS.append(Surface.ROTATION_270, 180);
 	}
-
+	static class CompareSizesByArea implements Comparator<Size> {
+		@Override
+		public int compare(Size lhs, Size rhs) {
+			return Long.signum((long) lhs.getWidth() * lhs.getHeight() - (long) rhs.getWidth() * rhs.getHeight());
+		}
+	}
 	private String cameraId;
 	protected CameraDevice cameraDevice;
 	protected CameraCaptureSession cameraCaptureSessions;
@@ -157,8 +164,9 @@ public class CameraActivity extends Activity {
 		try {
 			CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraDevice.getId());
 			StreamConfigurationMap streamConfigs = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-			Size[] rawSizes = streamConfigs.getOutputSizes(ImageFormat.RAW_SENSOR);
-			ImageReader rawImageReader = ImageReader.newInstance(rawWidth, rawHeight, ImageFormat.RAW_SENSOR, 1);
+			Size largestRaw = Collections.max(Arrays.asList(map.getOutputSizes(ImageFormat.RAW_SENSOR)),new CompareSizesByArea());
+			
+			ImageReader rawImageReader = ImageReader.newInstance(largestRaw.getWidth(), largestRaw.getHeight(), ImageFormat.RAW_SENSOR, 1);
 			rawImageReader.setOnImageAvailableListener(new OnImageAvailableListener() {
 				@Override
 				 public void onImageAvailable(ImageReader reader) {
