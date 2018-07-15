@@ -212,6 +212,8 @@ public class CameraActivity extends Activity {
 					}
 				}
 			};
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	protected void createCameraPreview() {
@@ -255,7 +257,7 @@ public class CameraActivity extends Activity {
 			imageDimension = map.getOutputSizes(SurfaceTexture.class)[0];
 			// Add permission for camera and let user grant the permission
 			if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-				ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CAMERA_PERMISSION);
+				ActivityCompat.requestPermissions(CameraActivity.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CAMERA_PERMISSION);
 				return;
 			}
 			manager.openCamera(cameraId, stateCallback, null);
@@ -293,7 +295,7 @@ public class CameraActivity extends Activity {
 		if (requestCode == REQUEST_CAMERA_PERMISSION) {
 			if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
 				// close the app
-				Toast.makeText(MainActivity.this, "Sorry!!!, you can't use this app without granting permission", Toast.LENGTH_LONG).show();
+				Toast.makeText(CameraActivity.this, "Sorry!!!, you can't use this app without granting permission", Toast.LENGTH_LONG).show();
 				finish();
 			}
 		}
