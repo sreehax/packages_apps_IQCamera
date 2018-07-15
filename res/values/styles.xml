@@ -11,6 +11,6 @@
  limitations under the License.
 -->
 <resources>
-	<style name="MaterialTheme" parent="a:Theme.Material.Light.NoActionBar.Fullscreen" >
+	<style name="MaterialTheme" parent="android:Theme.Material.Light.NoActionBar.Fullscreen" >
 	</style>
 </resources>
