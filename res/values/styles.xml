@@ -12,7 +12,5 @@
 -->
 <resources>
 	<style name="MaterialTheme" parent="android:Theme.Material.Light.NoActionBar.Fullscreen" >
-		<item name="windowActionBar">false</item>
-		<item name="windowNoTitle">true</item>
 	</style>
 </resources>
