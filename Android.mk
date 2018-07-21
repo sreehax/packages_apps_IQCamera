@@ -30,7 +30,7 @@ LOCAL_SRC_FILES := $(call all-java-files-under, src)
 LOCAL_RESOURCE_DIR += $(LOCAL_PATH)/res
 LOCAL_PACKAGE_NAME := IQCamera
 LOCAL_PRIVILEGED_MODULE := true
-#LOCAL_USE_AAPT2 := false
+LOCAL_USE_AAPT2 := true
 LOCAL_AAPT_FLAGS := \
     --auto-add-overlay \
     --extra-packages android.support.design \
